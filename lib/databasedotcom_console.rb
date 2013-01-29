@@ -1,4 +1,5 @@
 require "databasedotcom_console/version"
+require "databasedotcom"
 
 module DatabasedotcomConsole
   # class Chatter
