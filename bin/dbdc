@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+
+require 'databasedotcom_console'
+
+ARGV.each{ |arg| puts arg }
+
+# chatter = Zerp::Chatter.new
+# chatter.say_hello
