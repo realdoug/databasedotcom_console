@@ -2,13 +2,6 @@ require "databasedotcom_console/version"
 require "databasedotcom"
 
 module DatabasedotcomConsole
-	clients = []
-
-	## Return a list of all clients
-	def self.clients
-		clients
-	end
-
 	## Create a new client for use with multiple orgs
 	def self.new_client(host, username, password)
 		client = Databasedotcom::Client.new(
@@ -17,8 +10,14 @@ module DatabasedotcomConsole
 		  				:host => host
 	        	)
 		client.authenticate(:username => username, :password => password)
-		#clients << client
 		client
 	end
 
+	class ScriptRunner
+		def initialize(path, connection)
+			@dbdc = connection
+			vars = binding
+			eval(File.read(path), vars) if path.class == String
+		end
+	end
 end
