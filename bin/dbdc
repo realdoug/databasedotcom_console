@@ -33,8 +33,8 @@ else
 
 		puts "\n\nWelcome to the Databasedotcom Ruby Console.  \nYou you can access your databasedotcom client via the variable @dbdc"
 		puts "\nExamples: \n"
-		puts "dbdc.list_sobjects"
-		puts "dbdc.materialze \'Account\'"
+		puts "@dbdc.list_sobjects"
+		puts "@dbdc.materialze \'Account\'"
 		puts "john = Account.find_by_LastName \'Yamaguchi\'"
 		puts "account_list = Account.query \'FirstName != null AND My_Custom_Field__C > 7 LIMIT 10\' \n"
 		puts "\n\n"
