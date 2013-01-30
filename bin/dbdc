@@ -1,8 +1,14 @@
 #!/usr/bin/env ruby
-
+require 'rubygems'
 require 'databasedotcom_console'
 require 'irb'
-require 'io/console'
+
+def supported_ruby
+	this_ruby = RUBY_VERSION.dup
+	Gem::Version.new(this_ruby) >= Gem::Version.new("1.9.3")
+end
+
+require 'io/console' if supported_ruby
 require 'optparse'
 
 ### RANDOM UTIL METHOD
@@ -24,7 +30,8 @@ def get_creds(opts={})
 		creds[:pw] = opts[:pw]
 	else
 		print "PASSWORD (and security token if necessary): "
-		creds[:pw] = STDIN.noecho(&:gets)
+		creds[:pw] = STDIN.noecho(&:gets) if supported_ruby
+		creds[:pw] = gets.strip unless supported_ruby		
 	end
 	creds
 end
