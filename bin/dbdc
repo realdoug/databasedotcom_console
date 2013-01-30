@@ -2,21 +2,35 @@
 
 require 'databasedotcom_console'
 require 'irb'
-@dbdc = Databasedotcom::Client.new(
-          :client_id => '3MVG9QDx8IX8nP5RUXIFbi3L4rSVruiBU4O_ozvkJiU0aGZDBxfsF6XDhngJf6Ha2fDNniyDxpt0Gb9Pp.2Tk',
-          :client_secret => '7712607496533706277',
-	  :host => ARGV[0]
-        )
-@dbdc.authenticate( :username => ARGV[1], :password => ARGV[2] )
 
-puts "\n\nWelcome to the Databasedotcom Ruby Console.  \nYou you can access your databasedotcom client via the variable @dbdc"
-puts "\nExamples: \n"
-puts "@dbdc.list_sobjects"
-puts "@dbdc.materialze \'Account\'"
-puts "john = Account.find_by_LastName \'Yamaguchi\'"
-puts "account_list = Account.query \'FirstName != null AND My_Custom_Field__C > 7 LIMIT 10\' \n"
-puts "\n\n"
-puts "Check out https://github.com/heroku/databasedotcom for more documentation on the databasedotcom gem\n\n"
+ohnoes = false
+begin
+	# @dbdc = Databasedotcom::Client.new(
+	#           :client_id => '3MVG9QDx8IX8nP5RUXIFbi3L4rSVruiBU4O_ozvkJiU0aGZDBxfsF6XDhngJf6Ha2fDNniyDxpt0Gb9Pp.2Tk',
+	#           :client_secret => '7712607496533706277',
+	# 	  			:host => ARGV[0]
+	#         )
+	# @dbdc.authenticate( :username => ARGV[1], :password => ARGV[2] )
+	@dbdc = DatabasedotcomConsole.new_client(ARGV[0], ARGV[1], ARGV[2])
+rescue Exception => e
+	ohnoes = true
+	puts "ERROR: #{e.message}"
+	puts "\nOh Noes! Looks like an error occurred.  Make sure you include your salesforce credentials in the following format: \n"
+	puts "  >> dbdc [host] [username] [password]"
+	puts "\nwhere host is likely either \'test.salesforce.com\'' or \'login.salesforce.com\' \n"
+	puts "If your org requires a security token, please be sure to concatenate it at the end of your password. \n\n"
+end
 
-ARGV.clear
-IRB.start
+unless ohnoes
+	puts "\n\nWelcome to the Databasedotcom Ruby Console.  \nYou you can access your databasedotcom client via the variable @dbdc"
+	puts "\nExamples: \n"
+	puts "@dbdc.list_sobjects"
+	puts "@dbdc.materialze \'Account\'"
+	puts "john = Account.find_by_LastName \'Yamaguchi\'"
+	puts "account_list = Account.query \'FirstName != null AND My_Custom_Field__C > 7 LIMIT 10\' \n"
+	puts "\n\n"
+	puts "Check out https://github.com/heroku/databasedotcom for more documentation on the databasedotcom gem\n\n"
+
+	ARGV.clear
+	IRB.start
+end
