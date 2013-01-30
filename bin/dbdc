@@ -9,19 +9,19 @@ require 'optparse'
 def get_creds(opts={})
 	creds = {}
 	if opts[:host]
-		creds[:host] = options[:host]
+		creds[:host] = opts[:host]
 	else
 		print "HOST (test.salesforce.com, login.salesforce.com, etc): "
 		creds[:host] = gets.strip
 	end
 	if opts[:un]
-		creds[:un] = options[:un]
+		creds[:un] = opts[:un]
 	else
 		print "USERNAME: "
 		creds[:un] = gets.strip
 	end
 	if opts[:pw]
-		creds[:pw] = options[:pw]
+		creds[:pw] = opts[:pw]
 	else
 		print "PASSWORD (and security token if necessary): "
 		creds[:pw] = STDIN.noecho(&:gets)
@@ -32,19 +32,17 @@ end
 options = {}
 parser = OptionParser.new do |opts|
 	opts.banner = "Usage: dbdc [options]"
-	opts.on("-h","--environment ENVIRONMENT","which environment you want server run") do |environment|
-    options[:host] = environment
+	opts.on("-h","--host HOST","enter the host (login.salesforce.com or test.salesforce.com") do |arg|
+    options[:host] = arg
   end
-
-	# opts.on("-h", "--host", "Host") do |h|
-	# 	options[:host] = h
-	# end
-	# opts.on("-u", "--username", "SFDC Username") do |u|
-	# 	options[:un] = u
-	# end
+  opts.on("-u","--username USERNAME","your username") do |arg|
+    options[:un] = arg
+  end
+  opts.on("-p","--password PASSWORD","your password") do |arg|
+    options[:pw] = arg
+  end
 end
 parser.parse!
-puts options.inspect
 
 if ARGV[0] == "exec"
 	path = ARGV[1]
@@ -53,7 +51,7 @@ if ARGV[0] == "exec"
 	@dbdc = DatabasedotcomConsole.new_client(creds[:host], creds[:un], creds[:pw])
 	DatabasedotcomConsole::ScriptRunner.new(path, @dbdc)
 else
-	#begin
+	begin
 		creds = get_creds(options)
 		@dbdc = DatabasedotcomConsole.new_client(creds[:host], creds[:un], creds[:pw])
 		
@@ -72,9 +70,9 @@ else
 
 		ARGV.clear
 		IRB.start
-	# rescue Exception => e
-	# 	puts "ERROR: #{e.message}"
-	# 	puts "\nOh Noes! Looks like an error occurred.  Make sure you have correctly entered your salesforce credentials!\n"
-	# 	puts "PROTIP: If your org requires a security token, please be sure to concatenate it at the end of your password. \n\n"
-	# end
+	rescue Exception => e
+		puts "ERROR: #{e.message}"
+		puts "\nOh Noes! Looks like an error occurred.  Make sure you have correctly entered your salesforce credentials!\n"
+		puts "PROTIP: If your org requires a security token, please be sure to concatenate it at the end of your password. \n\n"
+	end
 end
