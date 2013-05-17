@@ -1,6 +1,4 @@
-Databasedotcom Console is a quick and dirty way to inspect Salesforce data by quickly whipping up an interactive ruby console that is connected to your Salesforce instance.
-
-After getting tired of pulling down CSV files and dealing with Excel formulas when I knew I could write a quick ruby script to get the information I needed, I built this small gem that simplifies the commands to open an IRB shell and connect to Salesforce The console is Just Plain Ruby(TM) so you can use any ruby methods you want to process your salesforce data. You can of course require other ruby libraries as well.
+Databasedotcom Console is a quick way to inspect Salesforce data at the command line.  Inspired by the (RestClient Shell)[https://github.com/rest-client/rest-client] which spins up an IRB session with RestClient preloaded, this will spin up an instance of either (Databasedotcom)[https://github.com/heroku/databasedotcom?source=c] or (Restforce)[https://github.com/ejholmes/restforce?source=c] preloaded with the creds you supply.
 
 Install (supports Ruby 1.8.7 and up):
 
