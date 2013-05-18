@@ -1,4 +1,5 @@
-Databasedotcom Console
+Database.com Console
+======================
 
 Databasedotcom Console is a quick way to inspect Salesforce data at the command line.  Inspired by the [RestClient Shell](https://github.com/rest-client/rest-client) which spins up an IRB session with RestClient preloaded, this will spin up an instance of either [Databasedotcom](https://github.com/heroku/databasedotcom?source=c) or [Restforce](https://github.com/ejholmes/restforce?source=c) preloaded with the creds you supply.
 
